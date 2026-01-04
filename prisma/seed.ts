@@ -1,7 +1,7 @@
 
 import { prisma } from "@/lib/prisma"
 
-const bcrypt = require('bcrypt')
+import bcrypt from "bcrypt"
 async function main() {
     const ADMIN_EMAIL = "admin@gkbjregency.org"
     const ADMIN_PASSWORD = "admin123"
