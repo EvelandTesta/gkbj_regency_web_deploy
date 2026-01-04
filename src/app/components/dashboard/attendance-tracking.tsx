@@ -58,7 +58,7 @@ export default function AttendanceTracking() {
 
   const fetchMembers = async () => {
     try {
-      const response = await fetch("/api/members")
+      const response = await fetch("/api/member")
       if (!response.ok) throw new Error("Failed to fetch members")
       const data: Member[] = await response.json()
       setMembers(data)
