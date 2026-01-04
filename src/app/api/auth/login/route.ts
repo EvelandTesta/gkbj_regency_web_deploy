@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { signToken } from "@/lib/auth"
+import bcrypt from "bcrypt"
 
-const bcrypt = require('bcrypt')
+
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
