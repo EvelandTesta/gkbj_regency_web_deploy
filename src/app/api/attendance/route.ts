@@ -2,7 +2,6 @@ import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { verifyToken } from "@/lib/auth"
 
-
 export async function GET(request: NextRequest) {
   try {
     const token = request.cookies.get("auth-token")?.value
@@ -61,7 +60,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { date, eventType, memberIds } = await request.json()
+    const { date, eventType, memberIds} = await request.json()
 
     if (!date || !eventType || !memberIds || memberIds.length === 0) {
       return NextResponse.json({ error: "Date, event type, and member IDs are required" }, { status: 400 })
@@ -71,7 +70,7 @@ export async function POST(request: NextRequest) {
       data: {
         title: eventType,
         eventDate: new Date(date),
-        eventTime: "10:00",
+        eventTime: new Date(),
         eventType: eventType,
         createdById: user.id,
       },

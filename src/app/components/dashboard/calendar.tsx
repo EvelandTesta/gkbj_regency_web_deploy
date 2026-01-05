@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Plus, Edit, Trash2 } from "lucide-react"
 
+
 interface Event {
   id: number
   title: string
@@ -21,10 +22,10 @@ export default function Calendar() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    date: "",
-    time: "",
+    eventDate: "",
+    eventTime: "",
     location: "",
-    type: "Service",
+    eventType: "Service",
   })
 
   const eventTypes = ["Service", "Event", "Meeting", "Study", "Outreach"]
@@ -42,10 +43,10 @@ export default function Calendar() {
           data.map((event) => ({
             id: event.id,
             title: event.title,
-            description: event.description || "",
+            description: event.description,
             eventDate: event.eventDate.split("T")[0], 
-            eventTime: event.eventTime,
-            location: event.location || "",
+            eventTime: event.eventTime.split("T")[1].slice(0,8),
+            location: event.location,
             eventType: event.eventType,
           }))
         )
@@ -94,16 +95,16 @@ export default function Calendar() {
         body: JSON.stringify({
           title: formData.title,
           description: formData.description,
-          date: formData.date,
-          time: formData.time,
+          date: formData.eventDate,
+          time: formData.eventTime,
           location: formData.location,
-          type: formData.type,
+          type: formData.eventType,
         }),
       })
 
       if (response.ok) {
         await fetchEvents()
-        setFormData({ title: "", description: "", date: "", time: "", location: "", type: "Service" })
+        setFormData({ title: "", description: "", eventDate: "", eventTime: "", location: "", eventType: "Service" })
         setShowEventForm(false)
         alert("Event added successfully!")
       } else {
@@ -127,17 +128,17 @@ export default function Calendar() {
           body: JSON.stringify({
             title: formData.title,
             description: formData.description,
-            date: formData.date,
-            time: formData.time,
+            date: formData.eventDate,
+            time: formData.eventTime,
             location: formData.location,
-            type: formData.type,
+            type: formData.eventType,
           }),
         })
 
         if (response.ok) {
           await fetchEvents()
           setSelectedEvent(null)
-          setFormData({ title: "", description: "", date: "", time: "", location: "", type: "Service" })
+          setFormData({ title: "", description: "", eventDate: "", eventTime: "", location: "", eventType: "Service" })
           setShowEventForm(false)
           alert("Event updated successfully!")
         } else {
@@ -177,10 +178,10 @@ export default function Calendar() {
     setFormData({
       title: event.title,
       description: event.description,
-      date: event.eventDate,
-      time: event.eventTime,
+      eventDate: event.eventDate,
+      eventTime: event.eventTime,
       location: event.location,
-      type: event.eventType,
+      eventType: event.eventType,
     })
     setShowEventForm(true)
   }
@@ -335,14 +336,14 @@ export default function Calendar() {
               />
               <input
                 type="date"
-                value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                value={formData.eventDate}
+                onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800/20"
               />
               <input
                 type="time"
-                value={formData.time}
-                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                value={formData.eventTime}
+                onChange={(e) => setFormData({ ...formData, eventTime: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800/20"
               />
               <input
@@ -353,8 +354,8 @@ export default function Calendar() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800/20"
               />
               <select
-                value={formData.type}
-                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                value={formData.eventType}
+                onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800/20"
               >
                 {eventTypes.map((type) => (
@@ -375,7 +376,7 @@ export default function Calendar() {
                 onClick={() => {
                   setShowEventForm(false)
                   setSelectedEvent(null)
-                  setFormData({ title: "", description: "", date: "", time: "", location: "", type: "Service" })
+                  setFormData({ title: "", description: "", eventDate: "", eventTime: "", location: "", eventType: "Service" })
                 }}
                 className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
               >

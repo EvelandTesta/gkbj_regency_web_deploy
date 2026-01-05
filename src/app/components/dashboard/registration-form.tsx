@@ -11,7 +11,7 @@ interface Registration {
   age: string
   gender: string
   address: string
-  ministry: string
+  ministryInterest: string
   hearAbout: string
   status: "pending" | "approved" | "contacted"
   submittedAt: string
@@ -61,7 +61,7 @@ export default function RegistrationForm() {
             age: reg.age?.toString() || "",
             gender: reg.gender || "",
             address: reg.address || "",
-            ministry: reg.ministry || "",
+            ministryInterest: reg.ministryInterest,
             hearAbout: reg.hearAbout || "",
             status: reg.status,
             submittedAt: reg.submittedAt?.split("T")[0] || "",
@@ -258,7 +258,7 @@ export default function RegistrationForm() {
                     <div className="text-gray-900">{registration.email}</div>
                     <div className="text-gray-500 text-sm">{registration.phone}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-900">{registration.ministry}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-900">{registration.ministryInterest}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`inline-flex items-center space-x-1 px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(registration.status)}`}
